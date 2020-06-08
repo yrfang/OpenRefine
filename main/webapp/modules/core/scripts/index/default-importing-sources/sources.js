@@ -80,6 +80,7 @@ Refine.DefaultImportingController.sources.push({
 
 UrlImportingSourceUI.prototype.attachUI = function(bodyDiv) {
   var self = this;
+  self._bodyDiv = bodyDiv;
 
   bodyDiv.html(DOM.loadHTML("core", "scripts/index/default-importing-sources/import-from-web-form.html"));
 
@@ -91,12 +92,25 @@ UrlImportingSourceUI.prototype.attachUI = function(bodyDiv) {
 
   this._elmts.form.submit(function(evt){
     evt.preventDefault();
-    if(!isUrlValid(self._elmts.urlInput[0].value)) {
-      window.alert($.i18n('core-index-import/warning-web-address'));
-    } else {
-      self._controller.startImportJob(self._elmts.form, $.i18n('core-index-import/downloading-data'));
+    
+    var urlInputs = $('input.default-importing-web-url');
+    var urlInputLength = urlInputs.length;
+    
+    for (var urlInputIndex = 0; urlInputIndex < urlInputLength; urlInputIndex++) {
+      urlInputs[urlInputIndex].value = urlInputs[urlInputIndex].value.trim();
+      
+      if(urlInputs[urlInputIndex].value == "" || urlInputs[urlInputIndex].value == null) {
+        continue;
+        
+      } else if(!isUrlValid(urlInputs[urlInputIndex].value)) {
+        window.alert($.i18n('core-index-import/warning-web-address'));
+        return;
+      }
     }
+    
+    self._controller.startImportJob(self._elmts.form, $.i18n('core-index-import/downloading-data'));
   });
+  
   this._elmts.addButton.click(function(evt) {
     self._elmts.buttons.before(self._elmts.urlRow.clone());
   });
