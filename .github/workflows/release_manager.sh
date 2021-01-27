@@ -6,3 +6,9 @@ API_JSON=$(printf '{"tag_name": "%s","target_commitish": "master","name": "OpenR
 
 # Create Release
 echo $( curl --silent -H "Authorization: token ${RELEASE_REPO_TOKEN}" --data "${API_JSON}" "https://api.github.com/repos/${RELEASE_REPO_OWNER}/OpenRefine-snapshot-releases/releases" | jq -r '.upload_url' )
+
+# TODO - Instead use GitHub CLI to create release
+#
+# gh create release <tag> [<files>...] [flags]
+#
+# See docs https://cli.github.com/manual/gh_release_create
