@@ -23,8 +23,8 @@ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
 A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
 OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
 SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,           
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY           
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
 THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
@@ -35,24 +35,32 @@ package com.google.refine.browsing.facets;
 
 import java.io.IOException;
 
+
+
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+//import org.testng.annotations.BeforeMethod;
+//import org.testng.annotations.BeforeTest;
+//import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import com.google.refine.CustomRefineTest;
+import org.junit.jupiter.api.TestInstance;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.refine.model.ModelException;
 import com.google.refine.model.Project;
-import com.google.refine.RefineTest;
+//import com.google.refine.RefineTest;
 import com.google.refine.browsing.RowFilter;
 import com.google.refine.browsing.facets.TextSearchFacet;
 import com.google.refine.browsing.facets.TextSearchFacet.TextSearchFacetConfig;
 import com.google.refine.util.ParsingUtilities;
 import com.google.refine.util.TestUtils;
 
-public class TextSearchFacetTests extends RefineTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+public class CustomJunitTests extends CustomRefineTest {
 
     // dependencies
     private Project project;
@@ -75,19 +83,20 @@ public class TextSearchFacetTests extends RefineTest {
             + "\"invert\":false}";
 
     @Override
-    @BeforeTest
+    @BeforeAll
     public void init() {
         logger = LoggerFactory.getLogger(this.getClass());
     }
 
-    @BeforeMethod
+    @BeforeEach
     public void setUp() throws IOException, ModelException {
         project = createCSVProject("TextSearchFacet",
                 "Value\n"
-                        + "a\n"
-                        + "b\n"
-                        + "ab\n"
-                        + "Abc\n");
+                        + "^&*\n"
+                        + "ABCDEF\n"
+                        + "abcdef\n"
+                        + "123456\n"
+                        + " \n");
     }
 
     private void configureFilter(String filter) throws JsonParseException, JsonMappingException, IOException {
@@ -121,11 +130,11 @@ public class TextSearchFacetTests extends RefineTest {
         configureFilter(filter);
 
         // Check each row in the project against the filter
-        // The result of rowIndex=1 is false because "b" doesn't contain query=a
-        Assert.assertEquals(rowfilter.filterRow(project, 0, project.rows.get(0)), true);
-        Assert.assertEquals(rowfilter.filterRow(project, 1, project.rows.get(1)), false);
+        Assert.assertEquals(rowfilter.filterRow(project, 0, project.rows.get(0)), false);
+        Assert.assertEquals(rowfilter.filterRow(project, 1, project.rows.get(1)), true);
         Assert.assertEquals(rowfilter.filterRow(project, 2, project.rows.get(2)), true);
-        Assert.assertEquals(rowfilter.filterRow(project, 3, project.rows.get(3)), true);
+        Assert.assertEquals(rowfilter.filterRow(project, 3, project.rows.get(3)), false);
+        Assert.assertEquals(rowfilter.filterRow(project, 4, project.rows.get(4)), false);
     }
 
     @Test
@@ -146,16 +155,18 @@ public class TextSearchFacetTests extends RefineTest {
                 + "\"query\":\"a\"}";
 
         configureFilter(filter);
+
         // Check each row in the project against the filter
-        Assert.assertEquals(rowfilter.filterRow(project, 0, project.rows.get(0)), false);
-        Assert.assertEquals(rowfilter.filterRow(project, 1, project.rows.get(1)), true);
+        Assert.assertEquals(rowfilter.filterRow(project, 0, project.rows.get(0)), true);
+        Assert.assertEquals(rowfilter.filterRow(project, 1, project.rows.get(1)), false);
         Assert.assertEquals(rowfilter.filterRow(project, 2, project.rows.get(2)), false);
-        Assert.assertEquals(rowfilter.filterRow(project, 3, project.rows.get(3)), false);
+        Assert.assertEquals(rowfilter.filterRow(project, 3, project.rows.get(3)), true);
+        Assert.assertEquals(rowfilter.filterRow(project, 4, project.rows.get(4)), true);
     }
 
     @Test
     public void testRegExFilter() throws Exception {
-        // Apply regular expression filter "[bc]"
+        // Apply regular expression filter "[^0-9^a-z^A-Z^ ]"
 
         // Column: "Value"
         // Filter Query: "[bc]"
@@ -168,16 +179,17 @@ public class TextSearchFacetTests extends RefineTest {
                 + "\"mode\":\"regex\","
                 + "\"caseSensitive\":false,"
                 + "\"invert\":false,"
-                + "\"query\":\"[bc]\"}";
+                + "\"query\":\"[^0-9^a-z^A-Z^ ]+\"}";
+        // error when using [\W\D\S]+ (error message: Unrecognized character escape 'W')
 
-        // Apply filter to query text including b&c
         configureFilter(filter);
 
         // Check each row in the project against the filter
-        Assert.assertEquals(rowfilter.filterRow(project, 0, project.rows.get(0)), false);
-        Assert.assertEquals(rowfilter.filterRow(project, 1, project.rows.get(1)), true);
-        Assert.assertEquals(rowfilter.filterRow(project, 2, project.rows.get(2)), true);
-        Assert.assertEquals(rowfilter.filterRow(project, 3, project.rows.get(3)), true);
+        Assert.assertEquals(rowfilter.filterRow(project, 0, project.rows.get(0)), true);
+        Assert.assertEquals(rowfilter.filterRow(project, 1, project.rows.get(1)), false);
+        Assert.assertEquals(rowfilter.filterRow(project, 2, project.rows.get(2)), false);
+        Assert.assertEquals(rowfilter.filterRow(project, 3, project.rows.get(3)), false);
+        Assert.assertEquals(rowfilter.filterRow(project, 4, project.rows.get(4)), false);
     }
 
     @Test
@@ -189,9 +201,10 @@ public class TextSearchFacetTests extends RefineTest {
         // Check each row in the project against the filter
         // Expect to retrieve one row containing "Abc"
         Assert.assertEquals(rowfilter.filterRow(project, 0, project.rows.get(0)), false);
-        Assert.assertEquals(rowfilter.filterRow(project, 1, project.rows.get(1)), false);
+        Assert.assertEquals(rowfilter.filterRow(project, 1, project.rows.get(1)), true);
         Assert.assertEquals(rowfilter.filterRow(project, 2, project.rows.get(2)), false);
-        Assert.assertEquals(rowfilter.filterRow(project, 3, project.rows.get(3)), true);
+        Assert.assertEquals(rowfilter.filterRow(project, 3, project.rows.get(3)), false);
+        Assert.assertEquals(rowfilter.filterRow(project, 4, project.rows.get(4)), false);
     }
 
     @Test
@@ -207,3 +220,4 @@ public class TextSearchFacetTests extends RefineTest {
         TestUtils.isSerializedTo(facet, sensitiveFacetJson);
     }
 }
+
