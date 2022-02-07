@@ -1,5 +1,7 @@
 # 261 Group Project - OpenRefine
 
+[Group project report - Github Readme](https://github.com/yrfang/OpenRefine/blob/part1/mswe-readme.md)
+
 Here are some useful links.
 
 - [OpenRefine Project GitHub](https://github.com/OpenRefine/OpenRefine)
@@ -197,13 +199,6 @@ We can also click "Run HistoryEntryTests with Coverage", and we can obtain the t
 
 OpenRefine provides us with command line options to run test cases. You can also find information [here](https://docs.openrefine.org/technical-reference/build-test-run#testing).
 
-To run all tests, use:
-```bash=
-./refine test
-```
-
-**this option is not available when using `refine.bat`.**
-
 To run the server side portion of tests (OpenRefine server), we can use the command:
 
 ```bash=
@@ -253,16 +248,7 @@ The current existing test cases are mainly under `main/tests/server` for OpenRef
 
 **Partition testing** is a software testing technique that allows the tester to divide the input domain into different partitions of classes to reduce time of testing and number of test cases. For example, It can uncover the classes of errors by dividing inputs as valid and invalid classes. This technique tries to define test cases that uncover classes of errors, thereby reducing the total number of test cases that must be developed. An advantage of this approach is reduction in the time required for testing software due to lesser number of test cases.
 
-### OpenRefine partition test cases
-
-The step of our testing is divided into four steps.
-
-- Decompose the specification into equivalence partitions
-- Select representatives
-- Form test specifications
-- Produce and execute actual tests
-
-#### Feature Introduction
+### Feature Introduction
 
 select a feature that allows for partitioning. Specify your partitions (and boundaries when appropriate) in English — describe them.
 
@@ -301,11 +287,18 @@ In addition, to explore data, `text` data type can be operated by the `Text Filt
 - Filter exclusive facet by "invert" option
 - Filter customized facet by "regular expression" option
 
+The original test cases of text filter feature are under `main/tests/server/src/com/google/refine/browsing/facets/TextSearchFacetTests.java`
+
 ### Feature for OpenRefine partition test cases
 
-Partition of `Text filter` for text facet.
+The steps for partition of text filter feature:
 
-`main/tests/server/src/com/google/refine/browsing/facets/TextSearchFacetTests.java`
+- Decompose the specification into equivalence partitions
+- Select representatives
+- Form test specifications
+- Produce and execute actual tests
+
+Thus, we will explore the catogories for partition of `Text filter` for text facet.
 
 Because `text` data type is "string" operation in Java, we can narrow down partition categories and boundaries for string specific scenarios.
 
@@ -322,12 +315,11 @@ Because `text` data type is "string" operation in Java, we can narrow down parti
 
 
 
-
 ### Write new test cases in JUnit
 
 We will use our previous parition and boundaries to write some new test cases in JUnit for OpenRefine `text filter` feature.
 
-You can also find our changes under our fored repo in [part1 branch](https://github.com/yrfang/OpenRefine/tree/part1).
+You can also find our changes under our forked repo in [part1 branch](https://github.com/yrfang/OpenRefine/tree/part1).
 
 #### JUnit test file location:
 
@@ -401,5 +393,3 @@ Take one of test case for an example. We query letter of "a" in our test cases a
 We are able to see the result by right clicking on the file and select `Run CustomJunitTests` button. Therefore, we can see the Green Pass results in IntelliJ.
 
 ![](https://i.imgur.com/GdXK6E4.png)
-
-
