@@ -103,7 +103,7 @@ public class ListFacetTests extends RefineTest {
         ListFacetConfig facetConfig = ParsingUtilities.mapper.readValue(jsonConfig, ListFacetConfig.class);
 
         Facet facet = facetConfig.apply(project);
-        System.out.println("facet: " + facet);
+        System.out.println("facet: " + facet + " " + engine.getAllFilteredRows());
         facet.computeChoices(project, engine.getAllFilteredRows());
 
         TestUtils.isSerializedTo(facet, jsonFacet);

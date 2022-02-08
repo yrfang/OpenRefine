@@ -183,6 +183,8 @@ public class ExpressionNominalValueGrouperTests extends RefineTest {
                 + "record2,,a\n"
                 + ",1,a\n";
 
+        System.out.println(completeProjectJson);
+
         project = createCSVProject(completeProjectJson);
         bindings = new Properties();
         bindings.put("project", project);
