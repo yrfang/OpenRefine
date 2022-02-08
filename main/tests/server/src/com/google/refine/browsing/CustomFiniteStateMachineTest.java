@@ -50,7 +50,7 @@ public class CustomFiniteStateMachineTest extends CustomRefineTest {
     public void setUp() throws IOException, ModelException {
         project = createCSVProject("TextSearchFacet",
                 "Country\n"
-                        + "AUSTRALIA\n"
+                        + "australia\n"
                         + "ECUADOR\n"
                         + "HT\n"
                         + "INDIA\n"
@@ -66,7 +66,7 @@ public class CustomFiniteStateMachineTest extends CustomRefineTest {
     }
 
     @Test
-    public void testOriginalFacetToSearchedStringFacet() throws Exception {
+    public void testQuerySearchedStringFromOriginalFacet() throws Exception {
         // Apply text filter "a"
 
         // Column: "Country"
@@ -93,7 +93,7 @@ public class CustomFiniteStateMachineTest extends CustomRefineTest {
     }
 
     @Test
-    public void testSearchedFacetToCaseSensitiveFacet() throws Exception {
+    public void testQuerySearchedStringWithCaseSensitiveFilter() throws Exception {
         // Apply case-sensitive filter "A"
 
         String sensitiveConfigJson = "{\"type\":\"text\","
@@ -108,7 +108,7 @@ public class CustomFiniteStateMachineTest extends CustomRefineTest {
 
         // Check each row in the project against the filter
         // Expect to retrieve one row containing "Abc"
-        Assert.assertEquals(rowfilter.filterRow(project, 0, project.rows.get(0)), true);
+        Assert.assertEquals(rowfilter.filterRow(project, 0, project.rows.get(0)), false);
         Assert.assertEquals(rowfilter.filterRow(project, 1, project.rows.get(1)), true);
         Assert.assertEquals(rowfilter.filterRow(project, 2, project.rows.get(2)), false);
         Assert.assertEquals(rowfilter.filterRow(project, 3, project.rows.get(3)), true);
@@ -116,7 +116,7 @@ public class CustomFiniteStateMachineTest extends CustomRefineTest {
     }
 
     @Test
-    public void testSearchedFacetToInvertedFacet() throws Exception {
+    public void testQuerySearchedStringWithInvertFilter() throws Exception {
         // Apply inverted text filter "a" (that means facet result contains "a" would be excluded)
 
         // Column: "Value"
@@ -143,11 +143,11 @@ public class CustomFiniteStateMachineTest extends CustomRefineTest {
     }
 
     @Test
-    public void testSearchedFacetToRegExpFacet() throws Exception {
+    public void testQuerySearchedStringWithRegExp() throws Exception {
         // Apply regular expression filter "[abc]"
 
         // Column: "Value"
-        // Filter Query: "[bc]"
+        // Filter Query: "[abc]"
         // Mode: "regex"
         // Case sensitive: False
         // Invert: False
@@ -170,7 +170,7 @@ public class CustomFiniteStateMachineTest extends CustomRefineTest {
     }
 
     @Test
-    public void testCaseSensitiveFacetWithRegExpFilter() throws Exception {
+    public void testQuerySearchedStringWithCaseSensitiveAndRegExpFilter() throws Exception {
         // Apply regular expression filter "[C]"
 
         String filter = "{\"type\":\"text\","
@@ -193,7 +193,7 @@ public class CustomFiniteStateMachineTest extends CustomRefineTest {
     }
 
     @Test
-    public void testRegExpFacetWithInvertedFilter() throws Exception {
+    public void testQuerySearchedStringWithRegExpAndInvertFilter() throws Exception {
         // Apply regular expression filter "[C]"
 
         String filter = "{\"type\":\"text\","
@@ -216,7 +216,7 @@ public class CustomFiniteStateMachineTest extends CustomRefineTest {
     }
 
     @Test
-    public void testCaseSensitiveFacetWithInvertedFilter() throws Exception {
+    public void testQuerySearchedStringWithCaseSensitiveAndInvertFilter() throws Exception {
 // Apply case-sensitive filter "A"
 
         String sensitiveConfigJson = "{\"type\":\"text\","
@@ -231,7 +231,7 @@ public class CustomFiniteStateMachineTest extends CustomRefineTest {
 
         // Check each row in the project against the filter
         // Expect to retrieve one row containing "Abc"
-        Assert.assertEquals(rowfilter.filterRow(project, 0, project.rows.get(0)), false);
+        Assert.assertEquals(rowfilter.filterRow(project, 0, project.rows.get(0)), true);
         Assert.assertEquals(rowfilter.filterRow(project, 1, project.rows.get(1)), false);
         Assert.assertEquals(rowfilter.filterRow(project, 2, project.rows.get(2)), true);
         Assert.assertEquals(rowfilter.filterRow(project, 3, project.rows.get(3)), false);
