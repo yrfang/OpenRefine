@@ -99,10 +99,10 @@ public class CustomFiniteStateMachineTest extends CustomRefineTest {
      * Test
      */
 
-    String mode;
+    String mode; // reg: "regex", other: "text"
     boolean isCaseSensitive;
     boolean isInvert;
-    String queryStr;
+    String queryStr;  // reg: "[^0-9^a-z^A-Z^ ]+", other: "ABCDEF"
     String filter;
 
 //    String filter = "{\"type\":\"text\","
