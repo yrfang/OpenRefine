@@ -7,14 +7,10 @@ package com.google.refine.browsing;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.refine.CustomRefineTest;
-import com.google.refine.RefineTest;
-import com.google.refine.browsing.facets.Facet;
-import com.google.refine.browsing.facets.ListFacet;
 import com.google.refine.browsing.facets.TextSearchFacet;
 import com.google.refine.model.ModelException;
 import com.google.refine.model.Project;
 import com.google.refine.util.ParsingUtilities;
-import com.google.refine.util.TestUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +22,7 @@ import java.io.IOException;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class CustomFiniteStateMachineTest extends CustomRefineTest {
+public class CustomFiniteStateMachineTest1 extends CustomRefineTest {
     // dependencies
     private Project project;
     private TextSearchFacet.TextSearchFacetConfig textfilterconfig;
