@@ -58,4 +58,8 @@ public class NowTests extends RefineTest {
         Assert.assertTrue(((OffsetDateTime) invoke("now")).isAfter(source));
     }
 
+    @Test
+    public void testNowNull() {
+        Assert.assertEquals(invoke("now", new Object[] { 1 }), null);
+    }
 }

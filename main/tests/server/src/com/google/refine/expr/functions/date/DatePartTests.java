@@ -117,4 +117,35 @@ public class DatePartTests extends RefineTest {
         return calendar;
     }
 
+    @Test
+    public void testDatePartGetPart() {
+        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+
+        // year, years
+        Assert.assertEquals(invoke("datePart", c, "year"), c.get(Calendar.YEAR));
+        Assert.assertEquals(invoke("datePart", c, "years"), c.get(Calendar.YEAR));
+
+        // month, months (people expect January to be 1 not 0)
+        Assert.assertEquals(invoke("datePart", c, "month"), c.get(Calendar.MONTH) + 1);
+        Assert.assertEquals(invoke("datePart", c, "months"), c.get(Calendar.MONTH) + 1);
+
+        // days
+        Assert.assertEquals(invoke("datePart", c, "days"), c.get(Calendar.DAY_OF_MONTH));
+
+        // hours
+        Assert.assertEquals(invoke("datePart", c, "hours"), c.get(Calendar.HOUR_OF_DAY));
+
+        // minutes
+        Assert.assertEquals(invoke("datePart", c, "minutes"), c.get(Calendar.MINUTE));
+
+        // seconds
+        Assert.assertEquals(invoke("datePart", c, "seconds"), c.get(Calendar.SECOND));
+
+        // milliseconds
+        Assert.assertEquals(invoke("datePart", c, "milliseconds"), c.get(Calendar.MILLISECOND));
+
+        // weekday
+        String[] s_daysOfWeek = new String[] {"Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        Assert.assertEquals(invoke("datePart", c, "weekday"), s_daysOfWeek[c.get(Calendar.DAY_OF_WEEK)]);
+    }
 }

@@ -106,4 +106,11 @@ public class IncTests extends RefineTest {
         Assert.assertTrue(invoke("inc", source.toInstant().toEpochMilli(), 99, "h") instanceof EvalError);
     }
 
+    @Test
+    public void testIncAddDays() {
+        OffsetDateTime source = OffsetDateTime.parse("20180510-23:55:44.000789000Z",
+                formatter);
+        Assert.assertTrue(invoke("inc", source, 2, "days") instanceof OffsetDateTime);
+        Assert.assertEquals(invoke("inc", source, 2, "days"), source.plus(2, ChronoUnit.DAYS));
+    }
 }
