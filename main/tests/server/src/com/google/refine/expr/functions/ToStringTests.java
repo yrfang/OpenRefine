@@ -60,9 +60,4 @@ public class ToStringTests extends RefineTest {
         assertEquals(invoke("toString", CalendarParser.parseAsOffsetDateTime(inputDateTime), "yyyy-MM-dd hh:mm:ss"), "2013-06-01 01:12:11");
         assertEquals(invoke("toString", CalendarParser.parseAsOffsetDateTime(inputDateTime), "yyyy-MM-dd HH:mm:ss"), "2013-06-01 13:12:11");
     }
-
-    @Test
-    public void testStringObject() {
-        assertEquals(invoke("toString", "1"), "1");
-    }
 }

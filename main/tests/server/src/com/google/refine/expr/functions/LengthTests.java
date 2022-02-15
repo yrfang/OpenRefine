@@ -35,9 +35,4 @@ import java.util.Arrays;
 
 public class LengthTests {
 
-    @Test
-    public void testLength() {
-        assertEquals(invoke("length", "1"), 1);
-        assertEquals(invoke("length", Arrays.asList("v1", "v2")), 2);
-    }
 }

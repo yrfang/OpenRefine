@@ -186,27 +186,4 @@ public class RowTests extends RefineTest {
         row.starred = true;
         Assert.assertTrue((Boolean) row.getField("starred", options));
     }
-
-    @Test
-    public void getNullField() {
-        Row row = new Row(5);
-        row.starred = false;
-        row.flagged = false;
-        Assert.assertEquals(row.getField("non-starred-non-flagged", options), null);
-    }
-
-    @Test
-    public void getCell() {
-        Row row = new Row(1);
-        row.setCell(0, new Cell(1, null));
-        Assert.assertEquals(row.getCell(0).getValue(), 1);
-    }
-
-    @Test
-    public void getNullCell() {
-        Row row = new Row(1);
-        row.setCell(0, new Cell(1, null));
-        // the expected result should be null, because the desired cell is larger than cell max size
-        Assert.assertEquals(row.getCell(2), null);
-    }
 }
