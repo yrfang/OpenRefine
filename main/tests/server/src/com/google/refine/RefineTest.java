@@ -322,7 +322,7 @@ public class RefineTest {
     /**
      * Lookup a control function by name and invoke it with a variable number of args
      */
-    protected static Object invoke(String name, Object... args) {
+    public static Object invoke(String name, Object... args) {
         // registry uses static initializer, so no need to set it up
         Function function = ControlFunctionRegistry.getFunction(name);
         if (bindings == null) {

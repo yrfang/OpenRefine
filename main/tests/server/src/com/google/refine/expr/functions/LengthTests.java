@@ -27,9 +27,17 @@
 
 package com.google.refine.expr.functions;
 
+import static com.google.refine.RefineTest.invoke;
+import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
-import com.google.refine.util.TestUtils;
+import java.util.Arrays;
 
 public class LengthTests {
+
+    @Test
+    public void testLength() {
+        assertEquals(invoke("length", "1"), 1);
+        assertEquals(invoke("length", Arrays.asList("v1", "v2")), 2);
+    }
 }
