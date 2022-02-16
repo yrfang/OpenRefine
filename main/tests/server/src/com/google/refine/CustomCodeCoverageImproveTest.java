@@ -122,8 +122,12 @@ public class CustomCodeCoverageImproveTest extends RefineTest {
                 + "\"invert\":false,"
                 + "\"query\":\"*\"}";
 
-        configureFilter(filter);
-        Assert.assertEquals(rowfilter.filterRow(project, 0, project.rows.get(0)), false);
+        try {
+            configureFilter(filter);
+        } catch (Exception e){
+            String expectError = "The regular expression has a '*','+' or '?' in the wrong place.";
+            Assert.assertEquals(e.getMessage(),expectError);
+        }
     }
 
     @Test
