@@ -173,13 +173,6 @@ public class TextSearchFacetTests extends RefineTest {
                 + "\"invert\":false,"
                 + "\"query\":\"[bc]\"}";
 
-        String filterWithErrorQuery = "{\"type\":\"text\","
-                + "\"name\":\"Value\","
-                + "\"columnName\":\"Value\","
-                + "\"mode\":\"regex\","
-                + "\"caseSensitive\":false,"
-                + "\"invert\":false,"
-                + "\"query\":\"[bc\"}";
 
         // Apply filter to query text including b&c
         configureFilter(filter);
@@ -190,13 +183,6 @@ public class TextSearchFacetTests extends RefineTest {
         Assert.assertEquals(rowfilter.filterRow(project, 2, project.rows.get(2)), true);
         Assert.assertEquals(rowfilter.filterRow(project, 3, project.rows.get(3)), true);
 
-        // Check the regex filter exception
-        try {
-            configureFilter(filterWithErrorQuery);
-        }catch (Exception e){
-            String expectError = "The regular expression is missing a closing ']' character, or has an empty pair of square brackets '[]'.";
-            Assert.assertEquals(expectError,e.getMessage());
-        }
     }
 
     @Test
@@ -224,23 +210,5 @@ public class TextSearchFacetTests extends RefineTest {
         TextSearchFacetConfig config = ParsingUtilities.mapper.readValue(sensitiveConfigJson, TextSearchFacetConfig.class);
         TextSearchFacet facet = config.apply(project);
         TestUtils.isSerializedTo(facet, sensitiveFacetJson);
-    }
-    @Test
-    public void nullRecordFilter() throws JsonProcessingException {
-        project = createCSVProject("",
-                "");
-
-        String filter = "{\"type\":\"text\","
-                + "\"name\":\"Value\","
-                + "\"columnName\":\"Value\","
-                + "\"mode\":\"text\","
-                + "\"caseSensitive\":false,"
-                + "\"invert\":false,"
-                + "\"query\":\"a\"}";
-
-        textfilterconfig = ParsingUtilities.mapper.readValue(filter, TextSearchFacetConfig.class);
-        textfilter = textfilterconfig.apply(project);
-        RecordFilter recordFilter = textfilter.getRecordFilter(project);
-        Assert.assertEquals(recordFilter,null);
     }
 }
