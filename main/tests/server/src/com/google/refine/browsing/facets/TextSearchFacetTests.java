@@ -126,6 +126,7 @@ public class TextSearchFacetTests extends RefineTest {
         Assert.assertEquals(rowfilter.filterRow(project, 1, project.rows.get(1)), false);
         Assert.assertEquals(rowfilter.filterRow(project, 2, project.rows.get(2)), true);
         Assert.assertEquals(rowfilter.filterRow(project, 3, project.rows.get(3)), true);
+
     }
 
     @Test
@@ -170,6 +171,14 @@ public class TextSearchFacetTests extends RefineTest {
                 + "\"invert\":false,"
                 + "\"query\":\"[bc]\"}";
 
+        String filterWithErrorQuery = "{\"type\":\"text\","
+                + "\"name\":\"Value\","
+                + "\"columnName\":\"Value\","
+                + "\"mode\":\"regex\","
+                + "\"caseSensitive\":false,"
+                + "\"invert\":false,"
+                + "\"query\":\"[bc\"}";
+
         // Apply filter to query text including b&c
         configureFilter(filter);
 
@@ -178,6 +187,14 @@ public class TextSearchFacetTests extends RefineTest {
         Assert.assertEquals(rowfilter.filterRow(project, 1, project.rows.get(1)), true);
         Assert.assertEquals(rowfilter.filterRow(project, 2, project.rows.get(2)), true);
         Assert.assertEquals(rowfilter.filterRow(project, 3, project.rows.get(3)), true);
+
+        // Check the regex filter exception
+        try {
+            configureFilter(filterWithErrorQuery);
+        }catch (Exception e){
+            String expectError = "The regular expression is missing a closing ']' character, or has an empty pair of square brackets '[]'.";
+            Assert.assertEquals(expectError,e.getMessage());
+        }
     }
 
     @Test
