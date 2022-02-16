@@ -35,6 +35,8 @@ package com.google.refine.browsing.facets;
 
 import java.io.IOException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.refine.browsing.RecordFilter;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -222,5 +224,23 @@ public class TextSearchFacetTests extends RefineTest {
         TextSearchFacetConfig config = ParsingUtilities.mapper.readValue(sensitiveConfigJson, TextSearchFacetConfig.class);
         TextSearchFacet facet = config.apply(project);
         TestUtils.isSerializedTo(facet, sensitiveFacetJson);
+    }
+    @Test
+    public void nullRecordFilter() throws JsonProcessingException {
+        project = createCSVProject("",
+                "");
+
+        String filter = "{\"type\":\"text\","
+                + "\"name\":\"Value\","
+                + "\"columnName\":\"Value\","
+                + "\"mode\":\"text\","
+                + "\"caseSensitive\":false,"
+                + "\"invert\":false,"
+                + "\"query\":\"a\"}";
+
+        textfilterconfig = ParsingUtilities.mapper.readValue(filter, TextSearchFacetConfig.class);
+        textfilter = textfilterconfig.apply(project);
+        RecordFilter recordFilter = textfilter.getRecordFilter(project);
+        Assert.assertEquals(recordFilter,null);
     }
 }
