@@ -100,7 +100,7 @@ public class ParsingUtilities {
 
     public static final DateTimeFormatter ISO8601 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
     private static final ZoneId defaultZone = ZoneId.systemDefault();
-                
+
     static public Properties parseUrlParameters(HttpServletRequest request) {
         Properties options = new Properties();
 

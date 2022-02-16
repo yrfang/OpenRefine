@@ -27,9 +27,13 @@
 
 package com.google.refine.expr.functions.strings;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.google.refine.util.TestUtils;
 
+import java.util.Properties;
+
 public class MatchTests {
+
 }

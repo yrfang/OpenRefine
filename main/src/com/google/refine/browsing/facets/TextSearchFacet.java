@@ -137,12 +137,12 @@ public class TextSearchFacet implements Facet {
                 } catch (java.util.regex.PatternSyntaxException e) {
                     PatternSyntaxExceptionParser err = new PatternSyntaxExceptionParser(e);
                     throw new IllegalArgumentException(err.getUserMessage());
+
                 }
             } else if (!_config._caseSensitive) {
                 _query = _query.toLowerCase();
             }
         }
-
     }
 
     @Override
