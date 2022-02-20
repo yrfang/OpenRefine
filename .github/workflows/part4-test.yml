@@ -1,10 +1,6 @@
-name: Maven CI/CD
+name: Java CI
 
-on:
- push:
-    branches: [ part4-ci-test ]
-  pull_request:
-    branches: [ part4 ]
+on: [push]
 
 jobs:
   build_and_test:
