@@ -220,31 +220,31 @@ public class CustomJunitTests extends CustomRefineTest {
         TestUtils.isSerializedTo(facet, sensitiveFacetJson);
     }
 
-    @Test
-    public void testTextFilterForCI() throws Exception {
-        // Apply text filter "b"
-
-        // Column: "Value"
-        // Filter Query: "b"
-        // Mode: "text"
-        // Case sensitive: False
-        // Invert: False
-        String filter = "{\"type\":\"text\","
-                + "\"name\":\"Value\","
-                + "\"columnName\":\"Value\","
-                + "\"mode\":\"text\","
-                + "\"caseSensitive\":false,"
-                + "\"invert\":false,"
-                + "\"query\":\"b\"}";
-
-        configureFilter(filter);
-
-        // Check each row in the project against the filter
-        Assert.assertEquals(rowfilter.filterRow(project, 0, project.rows.get(0)), false);
-        Assert.assertEquals(rowfilter.filterRow(project, 1, project.rows.get(1)), true);
-        Assert.assertEquals(rowfilter.filterRow(project, 2, project.rows.get(2)), true);
-        Assert.assertEquals(rowfilter.filterRow(project, 3, project.rows.get(3)), false);
-        Assert.assertEquals(rowfilter.filterRow(project, 4, project.rows.get(4)), false);
-    }
+//    @Test
+//    public void testTextFilterForCI() throws Exception {
+//        // Apply text filter "b"
+//
+//        // Column: "Value"
+//        // Filter Query: "b"
+//        // Mode: "text"
+//        // Case sensitive: False
+//        // Invert: False
+//        String filter = "{\"type\":\"text\","
+//                + "\"name\":\"Value\","
+//                + "\"columnName\":\"Value\","
+//                + "\"mode\":\"text\","
+//                + "\"caseSensitive\":false,"
+//                + "\"invert\":false,"
+//                + "\"query\":\"b\"}";
+//
+//        configureFilter(filter);
+//
+//        // Check each row in the project against the filter
+//        Assert.assertEquals(rowfilter.filterRow(project, 0, project.rows.get(0)), false);
+//        Assert.assertEquals(rowfilter.filterRow(project, 1, project.rows.get(1)), true);
+//        Assert.assertEquals(rowfilter.filterRow(project, 2, project.rows.get(2)), true);
+//        Assert.assertEquals(rowfilter.filterRow(project, 3, project.rows.get(3)), false);
+//        Assert.assertEquals(rowfilter.filterRow(project, 4, project.rows.get(4)), false);
+//    }
 }
 

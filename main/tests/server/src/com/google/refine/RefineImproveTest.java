@@ -28,6 +28,15 @@ public class RefineImproveTest {
         Assert.assertEquals(row.getField("non-starred-non-flagged", options), null);
     }
 
+    // main/src/com/google/refine/model/Row.java
+    @Test
+    public void getNullFieldForCI() {
+        Row row = new Row(3);
+        row.starred = false;
+        row.flagged = false;
+        Assert.assertEquals(row.getField("non-starred-non-flagged", options), null);
+    }
+
     @Test
     public void getCell() {
         Row row = new Row(1);
