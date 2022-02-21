@@ -3,7 +3,11 @@
 
 name: UCI MSWE Testing Project CI with Maven
 
-on: [push]
+on:
+  push:
+    branches: [ part4 ]
+  pull_request:
+    branches: [ part4 ]
 
 jobs:
   build_and_test:
