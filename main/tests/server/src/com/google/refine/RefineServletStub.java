@@ -38,6 +38,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Time;
+import java.util.Timer;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -81,7 +83,7 @@ public class RefineServletStub extends RefineServlet {
     // -------------------helper methods--------------
     /**
      * Helper method for inserting a mock object
-     * 
+     *
      * @param commandName
      * @param command
      */
@@ -91,10 +93,21 @@ public class RefineServletStub extends RefineServlet {
 
     /**
      * Helper method for clearing up after testing
-     * 
+     *
      * @param commandName
      */
     public void removeCommand(String commandName) {
         unregisterCommand("core/" + commandName);
     }
+
+    public void setTimter(Timer timer){
+        _timer = timer;
+    }
+
+    public Timer getTimter(){
+        return _timer;
+    }
+
+
 }
+
