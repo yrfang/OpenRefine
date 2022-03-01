@@ -109,27 +109,27 @@ public class RefineServletTests extends RefineTest {
     // -------------------init tests------------------------
     // TODO need to stub super.init(), mock Timer and inject it into RefineServlet
     // -------------------destroy tests---------------------
-
+    @Test
     public void destroyTimerTest() {
 
         // SUT with a timer
         Timer timer = mock(Timer.class);
-        SUT.setTimter(timer);
+        SUT.setTimer(timer);
         try {
             SUT.destroy();
         }catch (NullPointerException e) {
 
         }
-        Assert.assertEquals(SUT.getTimter(),null);
+        Assert.assertEquals(SUT.getTimer(),null);
 
         // SUT with null timer
-        SUT.setTimter(null);
+        SUT.setTimer(null);
         try {
             SUT.destroy();
         }catch (NullPointerException e) {
 
         }
-        Assert.assertEquals(SUT.getTimter(),null);
+        Assert.assertEquals(SUT.getTimer(),null);
     }
     // --------------------doGet tests----------------------
     @Test

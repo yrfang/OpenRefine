@@ -100,14 +100,15 @@ public class RefineServletStub extends RefineServlet {
         unregisterCommand("core/" + commandName);
     }
 
-    public void setTimter(Timer timer){
+    public void setTimer(Timer timer){
         _timer = timer;
     }
 
-    public Timer getTimter(){
+    public Timer getTimer(){
         return _timer;
     }
 
+`
 
 }
 
