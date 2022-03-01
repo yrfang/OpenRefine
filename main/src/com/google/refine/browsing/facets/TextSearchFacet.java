@@ -172,6 +172,19 @@ public class TextSearchFacet implements Facet {
         }        
     }
 
+
+    public RowFilter getRowFilter(Project project, ExpressionStringComparisonRowFilter escrf) {
+        if (_query == null || _query.length() == 0 || _cellIndex < 0) {
+            return null;
+        } else if ("regex".equals(_config._mode) && _pattern == null) {
+            return null;
+        }
+
+        Evaluable eval = new VariableExpr("value");
+
+        return escrf;
+    }
+
     @Override
     public RecordFilter getRecordFilter(Project project) {
         RowFilter rowFilter = getRowFilter(project);
