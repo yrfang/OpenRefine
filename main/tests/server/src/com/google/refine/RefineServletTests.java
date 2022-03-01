@@ -39,11 +39,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.util.Timer;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.InjectableValues;
+import edu.mit.simile.butterfly.Butterfly;
 import org.apache.http.HttpStatus;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -105,8 +109,28 @@ public class RefineServletTests extends RefineTest {
     // -------------------init tests------------------------
     // TODO need to stub super.init(), mock Timer and inject it into RefineServlet
     // -------------------destroy tests---------------------
-    // TODO need to mock Timer and inject it into RefineServlet. Also need to deal with ProjectManager.singleton
 
+    public void destroyTimerTest() {
+
+        // SUT with a timer
+        Timer timer = mock(Timer.class);
+        SUT.setTimter(timer);
+        try {
+            SUT.destroy();
+        }catch (NullPointerException e) {
+
+        }
+        Assert.assertEquals(SUT.getTimter(),null);
+
+        // SUT with null timer
+        SUT.setTimter(null);
+        try {
+            SUT.destroy();
+        }catch (NullPointerException e) {
+
+        }
+        Assert.assertEquals(SUT.getTimter(),null);
+    }
     // --------------------doGet tests----------------------
     @Test
     public void doGetRegressionTest() {
@@ -305,3 +329,4 @@ public class RefineServletTests extends RefineTest {
         }
     }
 }
+
