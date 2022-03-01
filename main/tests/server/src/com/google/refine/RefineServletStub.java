@@ -107,8 +107,7 @@ public class RefineServletStub extends RefineServlet {
     public Timer getTimer(){
         return _timer;
     }
-
-`
+    
 
 }
 
